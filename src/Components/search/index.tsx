@@ -1,7 +1,6 @@
 import React, { Component, ChangeEvent } from "react";
 type propstype ={
   searchDigimons: (textv:string) => void
-  searchbox: (x:void) => void
   keyword:string
 }
 type statestype = {
@@ -18,8 +17,9 @@ export default class Search extends Component <propstype,statestype>{
 
   search = (event:ChangeEvent<HTMLInputElement>) =>{
     let currentstate= event.target.value
+
+    this.props.searchDigimons(currentstate)
     this.setState({keyword:currentstate})
-    this.props.searchDigimons(this.state.keyword)
   }
   
 
@@ -41,9 +41,6 @@ export default class Search extends Component <propstype,statestype>{
               <i className="fa fa-search"></i>
             </span>
           </p>
-          {/* <button className="button is-small is-primary">
-            <span>Search</span>
-          </button> */}
         </div>
       </form>
     </nav>
@@ -51,36 +48,4 @@ export default class Search extends Component <propstype,statestype>{
   }
 }
 
-
-// export default function Search(props:propstype) {
-
-//   // this.searchbox = (event:KeyboardEvent) => {
-//   //   props.searchbox((event.target as HTMLInputElement).value)
-//   // }
-
-//   return (
-//     <nav className="panel">
-//     <form>
-//       <p className="panel-heading">Search A Digimon</p>
-//       <div className="panel-block">
-//         <p className="control has-icon">
-//           <input
-//             className="input is-small"
-//             type="text"
-//             value={props.keyword}
-//             placeholder="Search"
-//             onChange={}
-//           />
-//           <span className="icon is-small">
-//             <i className="fa fa-search"></i>
-//           </span>
-//         </p>
-//         {/* <button className="button is-small is-primary">
-//           <span>Search</span>
-//         </button> */}
-//       </div>
-//     </form>
-//   </nav>
-//   )
-// }
 

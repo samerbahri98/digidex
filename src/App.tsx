@@ -3,14 +3,15 @@ import "./App.css";
 import Header from "./Components/header";
 import Search from "./Components/search";
 import Matrix from "./Components/matrix";
+import Loading from "./Components/loading";
 import axios from "axios";
 
-type listprops ={
-  id : number
-  name:string
-  img:string
-  level:string
-}
+type listprops = {
+  id: number;
+  name: string;
+  img: string;
+  level: string;
+};
 // interface IntrinsicAttributes {
 //   listelems:any
 // }
@@ -33,7 +34,8 @@ class App extends Component {
         level: ""
       }
     ],
-    keyword: ""
+    keyword: "",
+    loading: true
   };
 
   // state = {
@@ -47,14 +49,15 @@ class App extends Component {
 
   instring(small: string, big: string) {
     const limit = big.length - small.length;
-    for (let i = 0; i < limit; i++) {
-      if (big.slice(i, small.length).toUpperCase() === small.toUpperCase()) return true;
+    for (let i = 0; i < limit + 1; i++) {
+      if (big.slice(i, small.length + i).toUpperCase() === small.toUpperCase())
+        return true;
     }
     return false;
   }
 
   searchDigimons = (textv: string) => {
-    let currentState:Array<listprops>=[];
+    let currentState: Array<listprops> = [];
     this.state.list.forEach(elem => {
       if (
         elem.name.length >= textv.length ||
@@ -68,12 +71,10 @@ class App extends Component {
         }
       }
     });
-    if (textv==="") currentState=this.state.list
+    if (textv === "") currentState = this.state.list;
 
     this.setState({ allowedlist: currentState });
   };
-
-  searchbox = () => {};
 
   getDigimons = async () => {
     const res = await axios.get(
@@ -81,7 +82,7 @@ class App extends Component {
     );
     const data = await res.data;
 
-    this.setState({ list: data, allowedlist: data });
+    this.setState({ list: data, allowedlist: data, loading: false });
   };
 
   render() {
@@ -90,10 +91,15 @@ class App extends Component {
         <Header />
         <Search
           searchDigimons={this.searchDigimons}
-          searchbox={this.searchbox}
           keyword={this.state.keyword}
         />
-        <Matrix list={this.state.allowedlist} />
+        <Loading ismounted={this.state.loading}></Loading>
+        {this.state.loading ? (
+          <React.Fragment></React.Fragment>
+        ) : (
+          <Matrix list={this.state.allowedlist} />
+          
+        )}
       </div>
     );
   }
