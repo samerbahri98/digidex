@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+@media screen and (min-width: 769px) {
+  .matrix {
+    display: flex;
+    flex-direction: column;
+    column-gap: 1em;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 999px) {
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+  }
+}
+
+@media screen and (min-width : 1000px)
+{
+  .matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 1em;
+    }
+
+}
